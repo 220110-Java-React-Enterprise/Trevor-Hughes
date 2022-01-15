@@ -17,6 +17,7 @@ public class MainMenu {
                     break;
                 case(2):
                     System.out.println("Login");
+                    logIn();
                     break;
                 case(3):
                     System.out.println("Thank you for using this bank!");
@@ -27,9 +28,34 @@ public class MainMenu {
         }while(answer < 1 || answer > 3);
     }
     public void registerAccount(){
+        String fName;
+        String lName;
+        String email;
+        String pword;
+        Scanner scanner = new Scanner(System.in);
+
         System.out.println("What is your First name");
+        fName = scanner.nextLine();
         System.out.println("What is your Last name");
+        lName = scanner.nextLine();
         System.out.println("What is your email(You will use this to log in");
+        email = scanner.nextLine();
         System.out.println("Create a password");
+        pword = scanner.nextLine();
+        RegisteredAccount new_account = new RegisteredAccount(fName, lName, email, pword);
+        PostLoginMenu login = new PostLoginMenu(email, pword);
+    }
+
+    public void logIn(){
+        String email;
+        String pword;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your email address");
+        email = scanner.nextLine();
+        System.out.println("Enter your password");
+        pword = scanner.nextLine();
+        PostLoginMenu login = new PostLoginMenu(email, pword);
+
     }
 }
+
