@@ -45,24 +45,31 @@ public class MainMenu {
         do{System.out.println("What is your Last name");
         lName = scanner.nextLine();}
         while(!test.validateName(lName));
-        System.out.println("What is your email(You will use this to log in");
-        email = scanner.nextLine();
+        do{System.out.println("What is your email(You will use this to log in");
+        email = scanner.nextLine();}
+        while(!test.validateEmail(email));
         do{System.out.println("Create a password");
         pword = scanner.nextLine();}
         while(!test.validatePassword(pword));
         RegisteredAccount new_account = new RegisteredAccount(fName, lName, email, pword);
-        PostLoginMenu login = new PostLoginMenu(email, pword);
+        PostLoginMenu login = new PostLoginMenu(email);
     }
 
     public void logIn(){
         String email;
         String pword;
+        Validation test = new Validation();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your email address");
-        email = scanner.nextLine();
-        System.out.println("Enter your password");
-        pword = scanner.nextLine();
-        PostLoginMenu login = new PostLoginMenu(email, pword);
+        do{
+        do{System.out.println("Enter your email address");
+        email = scanner.nextLine();}
+        while(!test.validateEmail(email));
+        do{System.out.println("Enter your password");
+        pword = scanner.nextLine();}
+        while(!test.validatePassword(pword));
+        }
+        while(!test.checkCredentials(email,pword));
+        PostLoginMenu login = new PostLoginMenu(email);
 
     }
 }

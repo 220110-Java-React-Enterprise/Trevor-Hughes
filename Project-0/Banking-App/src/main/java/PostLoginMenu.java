@@ -1,8 +1,10 @@
 import java.util.Scanner;
 
 public class PostLoginMenu {
-    PostLoginMenu(String email, String pword) {
-        System.out.println(email + " " + pword);
+    private String email;
+    PostLoginMenu(String email) {
+        this.email = email;
+        System.out.println(this.email);
         ActualMenu();
     }
     public void ActualMenu(){
@@ -11,7 +13,7 @@ public class PostLoginMenu {
         Scanner scanner = new Scanner(System.in);
         do {
             try {
-                System.out.println("What would you like to do?");
+                System.out.println("Account: " + this.email + " What would you like to do?");
                 System.out.println("1. Create new bank account under this user");
                 System.out.println("2. Deposit funds into an account");
                 System.out.println("3. Withdraw funds from an account");

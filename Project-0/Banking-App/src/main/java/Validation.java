@@ -17,6 +17,10 @@ public class Validation {
         return true;
     }
     public boolean validateEmail(String email){
+        if(email.equals("")){
+            System.out.println("Email can't be empty");
+            return false;
+        }
         return true;
     }
 
@@ -27,6 +31,10 @@ public class Validation {
         }
         return true;
     }
+    public boolean checkCredentials(String email, String password){
+        return true;
+    }
+
 }
 
 
