@@ -110,16 +110,36 @@ public class Validation {
     }
 
     public boolean validateAccount(int userID, String name) {
-
+        int accountID = 0;
+        String accountName;
         if (name.equals("")) {
             System.out.println("Text can't be empty");
             return false;
         }
+        try {
+            String sql = "SELECT Accounts.account_name FROM Accounts INNER JOIN users_accounts ON " +
+                    "Accounts.account_id = users_accounts.account_id WHERE users_accounts.user_id = " + userID;
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                accountName = rs.getString(1);
+                if(name.equals(accountName)){
+                    System.out.println("You already have an account with that name");
+                    return false;
+                }
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
         return true;
     }
     public boolean validateEmailReal(String email) {
 
-        //checks if what they user entered was empty
+        //checks if what the user entered was empty
         if (email.equals("")) {
             System.out.println("Email can't be empty");
             return false;

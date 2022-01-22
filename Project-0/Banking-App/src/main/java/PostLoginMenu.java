@@ -42,7 +42,17 @@ public class PostLoginMenu {
                     account.createAccount(userID);
                 break;
                 case (2):
-                    System.out.println("you selected 2");
+                    ChooseAccount getAccount = new ChooseAccount();
+                    int accountID = 0;
+                    try {
+                        accountID = getAccount.chooseAccountID(userID);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    if(accountID != -1){
+                    DepositFunds addMoney = new DepositFunds();
+                    addMoney.deposit(accountID);}
+                    ActualMenu();
                     break;
                 case (3):
                     System.out.println("you selected 3");
