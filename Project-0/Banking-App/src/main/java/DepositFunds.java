@@ -1,0 +1,2 @@
+public class DepositFunds {
+}

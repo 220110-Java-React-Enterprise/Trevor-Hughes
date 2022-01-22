@@ -1,10 +1,17 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PostLoginMenu {
-    private String email;
-    PostLoginMenu(String email) {
-        this.email = email;
-        System.out.println(this.email);
+    private final Connection connection;
+    private final int userID;
+
+    PostLoginMenu(int userID) {
+        connection = ConnectionManager.getConnection();
+        this.userID = userID;
+
         ActualMenu();
     }
     public void ActualMenu(){
@@ -13,7 +20,7 @@ public class PostLoginMenu {
         Scanner scanner = new Scanner(System.in);
         do {
             try {
-                System.out.println("Account: " + this.email + " What would you like to do?");
+                System.out.println("What would you like to do?");
                 System.out.println("1. Create new bank account under this user");
                 System.out.println("2. Deposit funds into an account");
                 System.out.println("3. Withdraw funds from an account");
@@ -31,8 +38,9 @@ public class PostLoginMenu {
             }
             switch (answer) {
                 case (1):
-                    System.out.println("you selected 1");
-                    break;
+                    NewBankAccount account = new NewBankAccount();
+                    account.createAccount(userID);
+                break;
                 case (2):
                     System.out.println("you selected 2");
                     break;

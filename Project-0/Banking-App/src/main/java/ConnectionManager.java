@@ -7,10 +7,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionManager {
-    /*
-    jdbc:mariadb://hostname:port/databaseName?user=username&password=password
-     */
-    private static ConnectionManager connectionManager;
     private static Connection connection;
 
     private ConnectionManager(){
