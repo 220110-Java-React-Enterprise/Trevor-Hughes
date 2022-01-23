@@ -58,10 +58,23 @@ public class PostLoginMenu {
                     System.out.println("you selected 3");
                     break;
                 case (4):
-                    System.out.println("you selected 4");
+                    ChooseAccount display = new ChooseAccount();
+                    display.printAccounts(userID);
+                    ActualMenu();
                     break;
                 case (5):
-                    System.out.println("you selected 5");
+                    getAccount = new ChooseAccount();
+                    accountID = 0;
+                    try {
+                        accountID = getAccount.chooseAccountID(userID);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    if(accountID != -1) {
+                        TransactionHistory showHistory = new TransactionHistory();
+                        showHistory.showHistory(accountID);
+                    }
+                    ActualMenu();
                     break;
                 case (6):
                     System.out.println("you selected 6");
