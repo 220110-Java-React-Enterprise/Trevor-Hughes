@@ -86,7 +86,9 @@ public class PostLoginMenu {
                     ActualMenu();
                     break;
                 case (6):
-                    System.out.println("you selected 6");
+                    ChooseAddAccount newAccount = new ChooseAddAccount();
+                    newAccount.addAccount(userID);
+                    ActualMenu();
                     break;
                 case (7):
                     System.out.println("you selected 7");
