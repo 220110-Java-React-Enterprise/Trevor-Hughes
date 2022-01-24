@@ -55,7 +55,16 @@ public class PostLoginMenu {
                     ActualMenu();
                     break;
                 case (3):
-                    System.out.println("you selected 3");
+                    getAccount = new ChooseAccount();
+                    accountID = 0;
+                    try {
+                        accountID = getAccount.chooseAccountID(userID);
+                    } catch (SQLException e) {
+                        e.printStackTrace();}
+                        if(accountID != -1){
+                            WithdrawFunds withdrawMoney = new WithdrawFunds();
+                            withdrawMoney.withdrawAmount(accountID);}
+                        ActualMenu();
                     break;
                 case (4):
                     ChooseAccount display = new ChooseAccount();
