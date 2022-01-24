@@ -62,10 +62,66 @@ public class DepositFunds {
 
         //formats the amount to look like money amount
         String moneyString = formatter.format(answer);
+        String totalString = formatter.format(moneyAmount);
+        System.out.println(moneyString + " was deposited into account");
+        System.out.println("New balance = " + totalString);
 
         //inerts the information to track the transaction into transaction table
             sql = "INSERT INTO Transactions (account_id, transaction_type) VALUES (" + accountID +
                     ", 'Deposited " + moneyString + "')";
+        try {
+            pstmt = connection.prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void deposit(int accountID, float answer){
+        Scanner scanner = new Scanner(System.in);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        float moneyAmount = 0;   //holds the amount of money that is already in the account
+
+
+        //gets the current amount of money from the specific account being used
+        String sql = "SELECT Accounts.money_amount FROM Accounts INNER JOIN users_accounts ON " +
+                "Accounts.account_id = users_accounts.account_id WHERE Accounts.account_id = " + accountID;
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = connection.prepareStatement(sql);
+            ResultSet rs = null;
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                moneyAmount = rs.getFloat(1);
+            };
+
+            //adds the current amount to the amount the user wanted to add
+            moneyAmount = moneyAmount + answer;
+
+            //sets the new amount to the account total
+            sql = "UPDATE Accounts SET money_amount = " + moneyAmount + "where account_id = " + accountID;
+            pstmt = connection.prepareStatement(sql);
+            pstmt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //formats the amount to look like money amount
+        String moneyString = formatter.format(answer);
+        String totalString = formatter.format(moneyAmount);
+        System.out.println(moneyString + " was deposited into account");
+        System.out.println("New balance = " + totalString);
+
+
+
+        //inerts the information to track the transaction into transaction table
+        sql = "INSERT INTO Transactions (account_id, transaction_type) VALUES (" + accountID +
+                ", 'Deposited " + moneyString + "')";
         try {
             pstmt = connection.prepareStatement(sql);
         } catch (SQLException e) {

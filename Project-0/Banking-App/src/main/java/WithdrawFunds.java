@@ -18,7 +18,7 @@ public class WithdrawFunds {
     //tracked in their transaction history
     //input: accountID
     //output: NA
-    public void withdrawAmount(int accountID) {
+    public float withdrawAmount(int accountID) {
         Scanner scanner = new Scanner(System.in);
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         String moneyString;
@@ -55,7 +55,7 @@ public class WithdrawFunds {
                 System.out.println("Entered amount can't be higher than current balance.");
             }
 
-            //makes sure entered amount isnt negatie
+            //makes sure entered amount isn't negative
             if (answer < 0) {
                 System.out.println("Entered amount can't be negative.");
             }
@@ -72,7 +72,7 @@ public class WithdrawFunds {
         //changes the amount entered to money form and then prints out
         //the changed they just made
         String answerString = formatter.format(answer);
-        System.out.println(answerString + " was deposited");
+        System.out.println(answerString + " was withdrawn");
         moneyAmount = moneyAmount - answer;
         moneyString = formatter.format(moneyAmount);
         System.out.println("Your new total is " + moneyString + "\n");
@@ -101,6 +101,8 @@ public class WithdrawFunds {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return answer;
 
     }
 }
