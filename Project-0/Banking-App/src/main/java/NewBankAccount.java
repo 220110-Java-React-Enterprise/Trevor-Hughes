@@ -4,23 +4,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class NewBankAccount {
+public class NewBankAccount{
     private final Connection connection;
 
-
-
-    public NewBankAccount() {
+    NewBankAccount() {
         connection = ConnectionManager.getConnection();
     }
+
 
     // Creates a new bank account in the database for the person signed in;
     //input: userID
     //output: none
-    public void createAccount(int userID) {
+    public void createAccount(int userID, CustomArrayList<UserAccount> accountList) {
         Validation test = new Validation();
         Scanner scanner = new Scanner(System.in);
         String name; // holds the name of the account that the user creates
-        String accountID = null; // holds the accountID that was just created
+        int accountID = 0; // holds the accountID that was just created
 
         // lets the user input their account name and makes sure that it is unique
         do {
@@ -47,7 +46,7 @@ public class NewBankAccount {
 
 
             while (rs.next()) {
-                accountID= rs.getString(1);
+                accountID = rs.getInt(1);
             }
 
             // inserts the user_id and account_id into the users_accounts table
@@ -55,17 +54,15 @@ public class NewBankAccount {
             pstmt = connection.prepareStatement(sql);
 
             pstmt.setInt(1, userID);
-            pstmt.setString(2, accountID);
+            pstmt.setInt(2, accountID);
 
             pstmt.executeUpdate();
-
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // goes back to the post login menu
-        PostLoginMenu getBack = new PostLoginMenu(userID);
-    }
+        UserAccount account = new UserAccount(accountID, name, 0);
+        accountList.add(account);
+        }
 }

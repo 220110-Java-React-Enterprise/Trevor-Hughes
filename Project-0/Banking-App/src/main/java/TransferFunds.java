@@ -9,7 +9,7 @@ public class TransferFunds {
         connection = ConnectionManager.getConnection();
 
     }
-    public void transferFundsNow(int userID){
+    public void transferFundsNow(int userID, CustomArrayList<UserAccount> accountList){
         Scanner scanner = new Scanner(System.in);
         int answer1 = -1;
         int answer2 = -1;
@@ -17,13 +17,13 @@ public class TransferFunds {
         ChooseAccount account1 = new ChooseAccount();
         try {
             System.out.println("What account would you like to withdraw money from?");
-            answer1 = account1.chooseAccountID(userID);
+            answer1 = account1.chooseAccountID(userID, accountList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
             System.out.println("Which account would you like to deposit the funds into?");
-            answer2 = account1.chooseAccountID(userID);
+            answer2 = account1.chooseAccountID(userID, accountList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -36,8 +36,8 @@ public class TransferFunds {
             }
         }
         WithdrawFunds withdrawFunds = new WithdrawFunds();
-        withdrawAmount = withdrawFunds.withdrawAmount(answer1);
+        withdrawAmount = withdrawFunds.withdrawAmount(answer1, accountList);
         DepositFunds depositFunds = new DepositFunds();
-        depositFunds.deposit(answer2, withdrawAmount);
+        depositFunds.deposit(answer2, withdrawAmount, accountList);
     }
 }

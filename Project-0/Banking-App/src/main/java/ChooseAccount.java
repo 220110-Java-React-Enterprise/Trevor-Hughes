@@ -7,19 +7,20 @@ import java.util.Scanner;
 
 public class ChooseAccount {
     private final Connection connection;
+    public PostLoginMenu ID;
 
     ChooseAccount() {
         connection = ConnectionManager.getConnection();
     }
 
-    public int chooseAccountID(int userID) throws SQLException {
+    public int chooseAccountID(int userID, CustomArrayList<UserAccount> accountList) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         int counter = 1;
         int answer = 0;
         String accountName;
         do {
             System.out.println("Please select an account.");
-            counter = printAccounts(userID);
+            counter = printAccounts(userID, accountList);
                 if (counter == 1) {
                     System.out.println("You have not created any accounts yet.");
                     return -1;
@@ -57,31 +58,20 @@ public class ChooseAccount {
             e.printStackTrace();
         }return -1;
     }
-    public int printAccounts(int userID){
-        String accountName;
+    public int printAccounts(int userID, CustomArrayList<UserAccount> accountList){
         int counter = 1;
-        float accountAmount = 0;
+        int size = accountList.size();
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-        String sql = "SELECT Accounts.account_name, Accounts.money_amount FROM Accounts INNER JOIN users_accounts ON " +
-                    "Accounts.account_id = users_accounts.account_id WHERE users_accounts.user_id = " + userID;
-        PreparedStatement pstmt = null;
-        try {
-            pstmt = connection.prepareStatement(sql);
-            ResultSet rs = null;
-            rs = pstmt.executeQuery();
-            System.out.println("");
-            while (rs.next()) {
-                accountName = rs.getString(1);
-                accountAmount =rs.getFloat(2);
-                String moneyString = formatter.format(accountAmount);
-                System.out.println(counter + ": " + accountName + "       Value: " + moneyString);
+        for ( int i = 0; i < size; i++) {
+            UserAccount a = new UserAccount();
+            a = accountList.get(i);
+            String moneyString = formatter.format(a.getMoneyAmount());
+            System.out.println(counter + ": " + a.getAccountName() + "       Value: " + moneyString);
                 counter++;
             }
             System.out.println("");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return counter;
+
     }
 }

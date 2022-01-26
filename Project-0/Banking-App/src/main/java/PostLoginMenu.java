@@ -4,17 +4,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class PostLoginMenu {
+public class PostLoginMenu{
     private final Connection connection;
     private final int userID;  // holds the id of the user that signed in
+    public CustomArrayList<UserAccount> accountList = new CustomArrayList<UserAccount>();
 
 
     // Constructor that sets the private variable to the user id passed in
     // then brings you to the main menu
     PostLoginMenu(int userID) {
+        int accountID;
+        String accountName;
+        float accountAmount;
         connection = ConnectionManager.getConnection();
         this.userID = userID;
+        String sql = "SELECT Accounts.account_id, Accounts.account_name, Accounts.money_amount FROM Accounts INNER JOIN users_accounts ON " +
+                "Accounts.account_id = users_accounts.account_id WHERE users_accounts.user_id = " + userID;
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = connection.prepareStatement(sql);
+            ResultSet rs = null;
+            rs = pstmt.executeQuery();
+            System.out.println("");
+            while (rs.next()) {
+                accountID = rs.getInt(1);
+                accountName = rs.getString(2);
+                accountAmount = rs.getFloat(3);
+                UserAccount account = new UserAccount(accountID, accountName, accountAmount);
+                accountList.add(account);
 
+            }
+        }catch (SQLException e){
+            System.out.println("Oops");
+        }
         ActualMenu();
     }
 
@@ -54,7 +76,8 @@ public class PostLoginMenu {
                 // if the user chooses 1, creates a new bank account
                 case (1):
                     NewBankAccount account = new NewBankAccount();
-                    account.createAccount(userID);
+                    account.createAccount(userID, accountList);
+                    ActualMenu();
                 break;
 
                 // if the user chooses 2, deposits money in account
@@ -64,7 +87,7 @@ public class PostLoginMenu {
 
                     // lets the user chose the account they want to use
                     try {
-                        accountID = getAccount.chooseAccountID(userID);
+                        accountID = getAccount.chooseAccountID(userID, accountList);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -72,7 +95,7 @@ public class PostLoginMenu {
                     // makes sure that there is an account under a user then deposits the money
                     if(accountID != -1){
                     DepositFunds addMoney = new DepositFunds();
-                    addMoney.deposit(accountID);}
+                    addMoney.deposit(accountID, accountList);}
                     ActualMenu();
                     break;
 
@@ -83,21 +106,21 @@ public class PostLoginMenu {
                     getAccount = new ChooseAccount();
                     accountID = 0;
                     try {
-                        accountID = getAccount.chooseAccountID(userID);
+                        accountID = getAccount.chooseAccountID(userID, accountList);
                     } catch (SQLException e) {
                         e.printStackTrace();}
 
                     //checks to see if this user has an account then withdraws the money
                         if(accountID != -1){
                             WithdrawFunds withdrawMoney = new WithdrawFunds();
-                            withdrawMoney.withdrawAmount(accountID);}
+                            withdrawMoney.withdrawAmount(accountID, accountList);}
                         ActualMenu();
                     break;
 
                     // lets user display the accounts they have
                 case (4):
                     ChooseAccount display = new ChooseAccount();
-                    display.printAccounts(userID);
+                    display.printAccounts(userID, accountList);
                     ActualMenu();
                     break;
 
@@ -108,7 +131,7 @@ public class PostLoginMenu {
 
                     //asks user which account they want to use
                     try {
-                        accountID = getAccount.chooseAccountID(userID);
+                        accountID = getAccount.chooseAccountID(userID,accountList);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -124,14 +147,14 @@ public class PostLoginMenu {
                     //lets user add another user to their account
                 case (6):
                     ChooseAddAccount newAccount = new ChooseAddAccount();
-                    newAccount.addAccount(userID);
+                    newAccount.addAccount(userID,accountList);
                     ActualMenu();
                     break;
 
                     //lets user transfer funds to another one of their accounts
                 case (7):
                     TransferFunds fundTransfer = new TransferFunds();
-                    fundTransfer.transferFundsNow(userID);
+                    fundTransfer.transferFundsNow(userID, accountList);
                     ActualMenu();
                     break;
 

@@ -17,7 +17,7 @@ public class DepositFunds {
     //tracked in their transaction history
     //input: accountID
     //output: NA
-    public void deposit(int accountID){
+    public void deposit(int accountID, CustomArrayList<UserAccount> accountList){
         Scanner scanner = new Scanner(System.in);
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         float answer = 0;        //holds the amount of money the user wants to enter
@@ -34,7 +34,7 @@ public class DepositFunds {
             }while(answer < 0);
     } catch (Exception e) {
             System.out.println("Please enter money amount.");
-            deposit(accountID);
+            deposit(accountID, accountList);
         }
 
         //gets the current amount of money from the specific account being used
@@ -64,7 +64,7 @@ public class DepositFunds {
         String moneyString = formatter.format(answer);
         String totalString = formatter.format(moneyAmount);
         System.out.println(moneyString + " was deposited into account");
-        System.out.println("New balance = " + totalString);
+        System.out.println("New balance = " + totalString + "\n");
 
         //inerts the information to track the transaction into transaction table
             sql = "INSERT INTO Transactions (account_id, transaction_type) VALUES (" + accountID +
@@ -79,10 +79,17 @@ public class DepositFunds {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        int size = accountList.size();
+        for ( int i = 0; i < size; i++) {
+            UserAccount a;
+            a = accountList.get(i);
+            if(a.getAccountID() == accountID ){
+                a.setMoneyAmount(moneyAmount);
+            }
+        }
     }
 
-    public void deposit(int accountID, float answer){
+    public void deposit(int accountID, float answer,CustomArrayList<UserAccount> accountList){
         Scanner scanner = new Scanner(System.in);
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         float moneyAmount = 0;   //holds the amount of money that is already in the account
@@ -115,7 +122,7 @@ public class DepositFunds {
         String moneyString = formatter.format(answer);
         String totalString = formatter.format(moneyAmount);
         System.out.println(moneyString + " was deposited into account");
-        System.out.println("New balance = " + totalString);
+        System.out.println("New balance = " + totalString + "\n");
 
 
 
@@ -132,6 +139,13 @@ public class DepositFunds {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        int size = accountList.size();
+        for ( int i = 0; i < size; i++) {
+            UserAccount a;
+            a = accountList.get(i);
+            if (a.getAccountID() == accountID) {
+                a.setMoneyAmount(moneyAmount);
+            }
+        }
     }
 }

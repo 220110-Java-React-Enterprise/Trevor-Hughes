@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-public class WithdrawFunds {
+public class WithdrawFunds{
     private final Connection connection;
+    public PostLoginMenu ID;
 
     WithdrawFunds() {
         connection = ConnectionManager.getConnection();
@@ -18,7 +19,7 @@ public class WithdrawFunds {
     //tracked in their transaction history
     //input: accountID
     //output: NA
-    public float withdrawAmount(int accountID) {
+    public float withdrawAmount(int accountID,CustomArrayList<UserAccount> accountList) {
         Scanner scanner = new Scanner(System.in);
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         String moneyString;
@@ -66,7 +67,7 @@ public class WithdrawFunds {
         //if they don't enter a valid float value ask again
             }catch (Exception e){
                 System.out.println("Please enter a valid number");
-                withdrawAmount(accountID);
+                withdrawAmount(accountID, accountList);
             }
 
         //changes the amount entered to money form and then prints out
@@ -86,6 +87,8 @@ public class WithdrawFunds {
         }catch (SQLException e) {
             e.printStackTrace();
         }
+        moneyString = formatter.format(answer);
+
 
         // keeps track of the transaction by adding it to the transaction table
         sql = "INSERT INTO Transactions (account_id, transaction_type) VALUES (" + accountID +
@@ -100,6 +103,15 @@ public class WithdrawFunds {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        int size = accountList.size();
+        for ( int i = 0; i < size; i++) {
+            UserAccount a;
+            a = accountList.get(i);
+            if (a.getAccountID() == accountID) {
+                a.setMoneyAmount(moneyAmount);
+            }
         }
 
         return answer;

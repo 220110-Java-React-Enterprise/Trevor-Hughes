@@ -11,7 +11,7 @@ public class ChooseAddAccount {
         connection = ConnectionManager.getConnection();
 
     }
-    public void addAccount(int userID){
+    public void addAccount(int userID, CustomArrayList<UserAccount> accountList){
         String email;    //email
         String pword;    // password
         int newID = 0;
@@ -59,7 +59,7 @@ public class ChooseAddAccount {
 
         //asks the user to pick which account they want to let the other account share with them
         try {
-            chosenAccountID = chooseAccount.chooseAccountID(userID);
+            chosenAccountID = chooseAccount.chooseAccountID(userID, accountList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
