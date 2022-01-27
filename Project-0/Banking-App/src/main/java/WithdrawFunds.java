@@ -18,7 +18,7 @@ public class WithdrawFunds{
     //after confirming the amount is allowed, it gets subtracted from their account and
     //tracked in their transaction history
     //input: accountID
-    //output: NA
+    //output: returns the amount that was withdrawn
     public float withdrawAmount(int accountID,CustomArrayList<UserAccount> accountList) {
         Scanner scanner = new Scanner(System.in);
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -105,6 +105,9 @@ public class WithdrawFunds{
             e.printStackTrace();
         }
 
+
+        //changes the money amount in the specific account in the arraylist
+        //to reflect the new changes to it
         int size = accountList.size();
         for ( int i = 0; i < size; i++) {
             UserAccount a;
@@ -114,6 +117,8 @@ public class WithdrawFunds{
             }
         }
 
+
+        //returns the amount that was withdrawn
         return answer;
 
     }

@@ -12,12 +12,16 @@ public class PostLoginMenu{
 
     // Constructor that sets the private variable to the user id passed in
     // then brings you to the main menu
+    //input : userID, the ID of the user logged in
+    //output: NA
     PostLoginMenu(int userID) {
-        int accountID;
-        String accountName;
-        float accountAmount;
+        int accountID; //holds the accountID
+        String accountName; // holds the account name
+        float accountAmount; // holds the account balace
         connection = ConnectionManager.getConnection();
         this.userID = userID;
+
+        //gets all the information in the accounts' table to put in the arraylist
         String sql = "SELECT Accounts.account_id, Accounts.account_name, Accounts.money_amount FROM Accounts INNER JOIN users_accounts ON " +
                 "Accounts.account_id = users_accounts.account_id WHERE users_accounts.user_id = " + userID;
         PreparedStatement pstmt = null;
@@ -26,6 +30,8 @@ public class PostLoginMenu{
             ResultSet rs = null;
             rs = pstmt.executeQuery();
             System.out.println("");
+
+            //sets all the information in an object then inserts it into the arraylist
             while (rs.next()) {
                 accountID = rs.getInt(1);
                 accountName = rs.getString(2);
@@ -35,14 +41,18 @@ public class PostLoginMenu{
 
             }
         }catch (SQLException e){
-            System.out.println("Oops");
+            System.out.println("Oops.. Something went wrong");
         }
+
+        //goes to the menu
         ActualMenu();
     }
 
 
     //prints out the menu and asks for the users input about what they would like to do
     // keeps running until the user quits or logs out
+    //input : NA
+    //output: NA
     public void ActualMenu(){
         int answer; //holds the users input
         MainMenu goBack = new MainMenu();
@@ -120,7 +130,7 @@ public class PostLoginMenu{
                     // lets user display the accounts they have
                 case (4):
                     ChooseAccount display = new ChooseAccount();
-                    display.printAccounts(userID, accountList);
+                    display.printAccounts(accountList);
                     ActualMenu();
                     break;
 

@@ -5,6 +5,8 @@ public class UserAccount {
 
     public UserAccount(){};
 
+
+    //holds the account information for the arraylist
     public UserAccount(int accountID, String accountName, float moneyAmount){
         this.accountID= accountID;
         this. accountName = accountName;

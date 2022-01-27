@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+
+//this class is used to create new bank accounts for a certain user
 public class NewBankAccount{
     private final Connection connection;
 
@@ -13,7 +15,7 @@ public class NewBankAccount{
 
 
     // Creates a new bank account in the database for the person signed in;
-    //input: userID
+    //input: userID, takes the userID of where the accounts will be connected to
     //output: none
     public void createAccount(int userID, CustomArrayList<UserAccount> accountList) {
         Validation test = new Validation();
@@ -62,6 +64,8 @@ public class NewBankAccount{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        //creates a new object and adds it to the end of the arraylist
         UserAccount account = new UserAccount(accountID, name, 0);
         accountList.add(account);
         }

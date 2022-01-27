@@ -11,9 +11,14 @@ public class TransactionHistory {
 
     }
 
+    //Shows all the transactions that took place so far
+    //input : accountID, the account that wants to be used to check the transactions for
+    //output: NA
     public void showHistory(int accountID){
-        String transaction;
-        int counter = 0;
+        String transaction; // going to hold the description for the transaction
+        int counter = 0; //checks if any transactions exist
+
+        //gets the type of transactions this account made and prints them out
         try {
             String sql = "SELECT transaction_type FROM Transactions WHERE account_id = " + accountID;
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -24,6 +29,8 @@ public class TransactionHistory {
                 System.out.println(transaction);
                 counter ++;
             }
+
+            //checks if there were no transactions
             if(counter == 0){
                 System.out.println("No transactions for this account yet.");
             }

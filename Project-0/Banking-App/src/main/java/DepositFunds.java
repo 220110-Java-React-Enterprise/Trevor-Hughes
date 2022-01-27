@@ -79,6 +79,8 @@ public class DepositFunds {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        //updates the money of this account in the arraylist
         int size = accountList.size();
         for ( int i = 0; i < size; i++) {
             UserAccount a;
@@ -89,6 +91,10 @@ public class DepositFunds {
         }
     }
 
+    //overloaded function of the function above used for when the amount being deposited is already known
+    //input : accountID, accountID of account being deposited to
+    //      : answer, the amount of money being added
+    //      : accountList, the arraylist holding the account information
     public void deposit(int accountID, float answer,CustomArrayList<UserAccount> accountList){
         Scanner scanner = new Scanner(System.in);
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -139,6 +145,8 @@ public class DepositFunds {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        //updates the money amount in the arraylist for given account
         int size = accountList.size();
         for ( int i = 0; i < size; i++) {
             UserAccount a;

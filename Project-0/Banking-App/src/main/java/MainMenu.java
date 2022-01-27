@@ -4,10 +4,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+
+/* Main menu class handles everything in the first main menu
+first asks the user if they want to register or login,
+after that prompts them to different things depending on what they do
+ */
 public class MainMenu {
     private final Connection connection;
-    private int userID;
+    private int userID;                   //holds the userID in the Users table
 
+    // empty constructor to create the connection to the database
     MainMenu(){
         //creates a connection to the database
         connection = ConnectionManager.getConnection();
@@ -19,8 +25,11 @@ public class MainMenu {
     //input: NA
     //output: NA
     public void mainMenuMaker(){
-        int answer;
+        int answer; // holds the users input
         Scanner scanner = new Scanner(System.in);
+
+        //shows the menu and keeps asking what the user would like to do as
+        //long as they don't pick one of the options
         do {
             try{
             System.out.println("What would you like to do?");
@@ -49,7 +58,7 @@ public class MainMenu {
                     System.out.println("Thank you for using this bank!");
                     break;
 
-                    // if the user doesn't enter anything
+                    // if the user doesn't enter anything or enters an incorrect amount
                 default:
                     System.out.println("Please enter an option.");
             }
@@ -60,6 +69,8 @@ public class MainMenu {
 
     // asks the user for information to set up their account
     // then sends the user to the post login menu
+    //input: NA
+    //output: NA
     public void registerAccount(){
         String fName;     // first name
         String lName;     // last name
@@ -70,8 +81,8 @@ public class MainMenu {
 
 
         // asks the user for all their information and makes sure that
-        // the information that they are putting in is the right form
-        // and not empty. For the email it makes sure that it is unique
+        // the information that they are putting in is correct
+        // using the validation methods. For the email it makes sure that it is unique
         do{System.out.println("What is your First name");
         fName = scanner.nextLine();}
         while(!test.validateName(fName));
@@ -102,6 +113,8 @@ public class MainMenu {
             }
         }catch (SQLException e) {
             e.printStackTrace();}
+
+        //goes to the postlogin menu and passes in the userID
         PostLoginMenu login = new PostLoginMenu(userID);
     }
 
@@ -142,6 +155,8 @@ public class MainMenu {
             }
         }catch (SQLException e) {
             e.printStackTrace();}
+
+        // goes to the login menu and passes in the userID
         PostLoginMenu login = new PostLoginMenu(userID);
 
     }

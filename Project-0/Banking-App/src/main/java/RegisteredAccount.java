@@ -6,9 +6,17 @@ import java.sql.SQLException;
 public class RegisteredAccount
 {
     private final Connection connection;
+
     RegisteredAccount(){
         connection = ConnectionManager.getConnection();
     }
+
+    // registers a new account into the database
+    // input : fname, first name of user
+    //       : lName, last name of user
+    //       : email, email of user
+    //       : pword, password of user
+    // output: NA
     public void registerAccount(String fName, String lName, String email, String pword){
         try {
             String sql = "INSERT INTO Users (first_name, last_name, email, password) VALUES (?,?,?,?)";
